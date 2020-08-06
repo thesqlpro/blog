@@ -1,4 +1,4 @@
-Course Title: SQL Server 2016: A Comprehensive Introduction – Arabic
+Course Title: SQL Server 2016 A Comprehensive Introduction – Arabic
 SQL Server 2016 - Arabic -  تعليم بللغة العربيه
 
 YouTube Playlist: https://www.youtube.com/playlist?list=PLq7cQMGDozxVSn__p9zJA2qy-uMTi3zdN
