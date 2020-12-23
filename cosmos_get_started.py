@@ -2,8 +2,8 @@ from azure.cosmos import exceptions, CosmosClient, PartitionKey
 import family
 
 # Initialize the Cosmos client
-endpoint = "endpoint"
-key = 'primary_key'
+endpoint = "https://aymancosmos.documents.azure.com:443/"
+key = 'wwHJYw8GUy3078ZDjoUWOd28qrkVUIX2DDbPhVFUESnVEgCbTTGNPZFWLVqVTu9jrAlMjUDklkulUgzUZ5bafg=='
 
 # <create_cosmos_client>
 client = CosmosClient(endpoint, key)
@@ -12,6 +12,7 @@ client = CosmosClient(endpoint, key)
 # Create a database
 # <create_database_if_not_exists>
 database_name = 'AzureSampleFamilyDatabase'
+##database_name = 'aymancosmosdb'
 database = client.create_database_if_not_exists(id=database_name)
 # </create_database_if_not_exists>
 
