@@ -1,5 +1,4 @@
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
-import family
 
 # Initialize the Cosmos client
 endpoint = "https://aymancosmos.documents.azure.com:443/"
@@ -12,7 +11,7 @@ client = CosmosClient(endpoint, key)
 # Create a database
 # <create_database_if_not_exists>
 ##database_name = 'AzureSampleFamilyDatabase'
-database_name = 'aymancosmosdb'
+database_name = 'testjsonpython'
 database = client.create_database_if_not_exists(id=database_name)
 # </create_database_if_not_exists>
 
@@ -22,13 +21,12 @@ database = client.create_database_if_not_exists(id=database_name)
 container_name = 'zipcodes'
 container = database.create_container_if_not_exists(
     id=container_name, 
-    partition_key=PartitionKey(path="/lastName"),
+    partition_key=PartitionKey(path="/id"),
     offer_throughput=400
 )
-# </create_container_if_not_exists>
 
-query = "SELECT * FROM c"## WHERE c.lastName IN ('Wakefield', 'Andersen')"
-
+##Final query
+query = "SELECT * FROM c where c.state ='VA'"
 items = list(container.query_items(
     query=query,
     enable_cross_partition_query=True
@@ -37,5 +35,3 @@ items = list(container.query_items(
 request_charge = container.client_connection.last_response_headers['x-ms-request-charge']
 
 print('Query returned {0} items. Operation consumed {1} request units'.format(len(items), request_charge))
-
-

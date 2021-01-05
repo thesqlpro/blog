@@ -1,4 +1,5 @@
 import json
+
 onerow = '{ "id" : "01002", "city" : "CUSHMAN", "loc" : [ -72.51564999999999, 42.377017 ], "pop" : 36963, "state" : "MA" }'
 dataonerow = json.loads(onerow)
 print ("printing one row")
@@ -19,6 +20,8 @@ with open('zips.json') as f:
 
 zips_jsondump = json.dumps(datalist)
 print(zips_jsondump)
+
+
 """
 #works but code above prints it into JSON format
 print("Let us print the JSON file now")
