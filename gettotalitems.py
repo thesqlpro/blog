@@ -12,7 +12,6 @@ client = CosmosClient(endpoint, key)
 
 # Create a database
 # <create_database_if_not_exists>
-##database_name = 'AzureSampleFamilyDatabase'
 database_name = 'testjsonpython'
 database = client.create_database_if_not_exists(id=database_name)
 # </create_database_if_not_exists>
@@ -27,10 +26,6 @@ container = database.create_container_if_not_exists(
     offer_throughput=400
 )
 
-##SELECT TOP 4 COUNT(1) AS foodGroupCount, f.foodGroup
-##FROM Food f
-##GROUP BY f.foodGroup
-
 query = "select value count(1) from c"
 items = list(container.query_items(
     query=query,
@@ -39,8 +34,8 @@ items = list(container.query_items(
 
 print(query)
 request_charge = container.client_connection.last_response_headers['x-ms-request-charge']
-print('Query returned {0} items. Operation consumed {1} request units'.format(len(items), request_charge))
-print (items)
+print('Query returned {0} items. Operation consumed {1} request units' .format(items, request_charge))
+##print (items)
 
 statename = 'MD'
 ##query2 = "select c.id, c.state from zipcodes c where c.state = 'MD'"
@@ -53,41 +48,53 @@ items2 = list(container.query_items(
 
 print(query2)
 request_charge = container.client_connection.last_response_headers['x-ms-request-charge']
-print('Query returned {0} items. Operation consumed {1} request units'.format(len(items2), request_charge))
-print (statename)
-print (items2)
+print('Query returned {0} items. Operation consumed {1} request units'.format(items2, request_charge))
+##print (statename)
+##print (items2)
 
 
-print("Get count of records by state without Group By")
+print("Get list of states")
 stateslistquery = "Select distinct c.state from c"
 stateslist = list(container.query_items(
     query = stateslistquery, 
     enable_cross_partition_query = True))
 
+request_charge = container.client_connection.last_response_headers['x-ms-request-charge']
+print('Query returned {0} items. Operation consumed {1} request units'.format(len(stateslist), request_charge))
 ##query3 = "select value count(1) from zipcodes c where c.state = '" +statename + "'"
-print (stateslist)
-'''
-for i in stateslist:
-    print(
-        list(container.query_items(
-        query = "select value count(1) from zipcodes c where c.state = @state",
-        parameters = [dict(name = "@state", value=i.values())],
-        enable_cross_partition_query = True
-    ))
-    )
-    print(i.values())
- '''   
+##print (stateslist)
 
+print("Get count of records by state without Group By")
 for i in stateslist:
-    statequerycount = "select value count(1) from zipcodes c where c.state = '" + str(i.values()) + "'"
+    statequerycount = "select value count(1) from zipcodes c where c.state = '" + i['state'] + "'"
     print (statequerycount)
-    print(
+    countperstate = (
         list(container.query_items(
-        query = "select value count(1) from zipcodes c where c.state = @state",
+        query = statequerycount,
         parameters = [dict(name = "@state", value=str(i.values()))],
         enable_cross_partition_query = True
     ))
     )
-    statevalue = list(i.values())
-    print(statevalue)
+    ##statevalue = list(i.values())
+    ##totalstatecount = totalstatecount + statevalue
+    ##print(statevalue)
+    print(countperstate)
+    request_charge = container.client_connection.last_response_headers['x-ms-request-charge']
+    print('Query returned {0} items. Operation consumed {1} request units'.format(countperstate, request_charge))
+
+'''
+###version2
+for i in stateslist:
+    statequerycount = "select value count(1) from zipcodes c where c.state = '" + i['state'] + "'"
+    print (statequerycount)
+    state_counts = (
+        list(container.query_items(
+        query = statequerycount,
+        parameters = [dict(name = "@state", value=str(i.values()))],
+        enable_cross_partition_query = True
+    ))
+    )
+    print(state_counts[0])
+    '''
+
     
