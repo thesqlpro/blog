@@ -1,0 +1,2 @@
+endpoint = "https://YourCosmosDBName.documents.azure.com:443/"
+key = 'YourConnectionKeyValue'
