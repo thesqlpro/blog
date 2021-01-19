@@ -1,10 +1,13 @@
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 import json
 from easydict import EasyDict as edict
+import connectioninfo as ci
 
 # Initialize the Cosmos client
-endpoint = "https://aymancosmos.documents.azure.com:443/"
-key = 'wwHJYw8GUy3078ZDjoUWOd28qrkVUIX2DDbPhVFUESnVEgCbTTGNPZFWLVqVTu9jrAlMjUDklkulUgzUZ5bafg=='
+endpoint = ci.endpoint
+key = ci.key
+##endpoint = "https://aymancosmos.documents.azure.com:443/"
+##key = 'wwHJYw8GUy3078ZDjoUWOd28qrkVUIX2DDbPhVFUESnVEgCbTTGNPZFWLVqVTu9jrAlMjUDklkulUgzUZ5bafg=='
 
 # <create_cosmos_client>
 client = CosmosClient(endpoint, key)
@@ -26,8 +29,3 @@ container = database.create_container_if_not_exists(
     partition_key=PartitionKey(path="/id"),
     offer_throughput=400
 )
-
-
-##testjonpython
-##container zipcode
-##testdevbranch
