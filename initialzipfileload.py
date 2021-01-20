@@ -1,32 +1,12 @@
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 import json
 from easydict import EasyDict as edict
+import connecttocosmos as c2c
 
-# Initialize the Cosmos client
-endpoint = "https://aymancosmos.documents.azure.com:443/"
-key = 'wwHJYw8GUy3078ZDjoUWOd28qrkVUIX2DDbPhVFUESnVEgCbTTGNPZFWLVqVTu9jrAlMjUDklkulUgzUZ5bafg=='
 
-# <create_cosmos_client>
-client = CosmosClient(endpoint, key)
-# </create_cosmos_client>
+database = c2c.database
+container = c2c.container
 
-# Create a database
-# <create_database_if_not_exists>
-##database_name = 'AzureSampleFamilyDatabase'
-database_name = 'zipsdb'
-database = client.create_database_if_not_exists(id=database_name)
-# </create_database_if_not_exists>
-
-# Create a container
-# Using a good partition key improves the performance of database operations.
-# <create_container_if_not_exists>
-container_name = 'zipcodes'
-container = database.create_container_if_not_exists(
-    id=container_name, 
-    partition_key=PartitionKey(path="/state"),
-    offer_throughput=400
-)
-# </create_container_if_not_exists>
 
 query = "SELECT * FROM c"
 items = list(container.query_items(
@@ -39,7 +19,7 @@ request_charge = container.client_connection.last_response_headers['x-ms-request
 print('Query returned {0} items. Operation consumed {1} request units'.format(len(items), request_charge))
 
 
-print ('Loading Zips file to Python Object')
+print ('Loading Zips file to Database')
 datalist = []
 with open('zips.json') as f:
   for jsonObj in f:
@@ -56,6 +36,7 @@ zips_jsondump = json.dumps(datalist)
 insert_request_counter=0
 insert_request=0
 
+
 print("Let's upload the JSON file to Cosmos now")
 for i in datalist:
     ##print(i)
@@ -67,17 +48,18 @@ for i in datalist:
       ##  {dataitem["id"],dataitem["city"],dataitem["loc"],dataitem["pop"],dataitem["state"]})
     ##container.create_item(body=json_data)
 
-
+print("Total RU Requests")
 print(insert_request_counter)
 ##Final query
-query = "SELECT value count(1) FROM c"
+countquery = "SELECT value count(1) FROM c"
 items = list(container.query_items(
-    query=query,
+    query=countquery,
     enable_cross_partition_query=True
 ))
 
+print("Total number of documents in collection")
 print(container.query_items(
-        query='SELECT value count(1) FROM c',
+        query= countquery,
         enable_cross_partition_query=True))
 
 request_charge = container.client_connection.last_response_headers['x-ms-request-charge']
