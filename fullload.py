@@ -1,3 +1,7 @@
+##disable warning on unverified https request (use only for local emulation)
+import urllib3
+urllib3.disable_warnings()
+
 ##This program is designed to create a new database collection and load it with the zip codes
 ##after that, we'll run some queries to test.
 ##It basically calls other python scripts

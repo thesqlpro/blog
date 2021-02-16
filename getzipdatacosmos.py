@@ -5,7 +5,7 @@ database = c2c.database
 container = c2c.container
 
 ##Final query
-query = "SELECT * FROM c where c.state ='MD'"
+query = "SELECT * FROM c where c.state ='VA'"
 items = list(container.query_items(
     query=query,
     enable_cross_partition_query=True
