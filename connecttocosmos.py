@@ -9,6 +9,8 @@ key = ci.key
 database_name = ci.database_name
 container_name = ci.container_name
 client = CosmosClient(endpoint, key)
+##for local emulation on container use the following code to skip the certificate validation otherwise use the string above
+##client = CosmosClient(endpoint, key,connection_verify=False)
 
 print("Database Name: " + database_name)
 database = client.create_database_if_not_exists(id=database_name)
