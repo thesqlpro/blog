@@ -11,13 +11,19 @@ database_name ="DatabaseName"
 
 container_name = "ContainerName"
 
-For local emulator use the following
+For local emulator use the following:
+
 endpoint = "https://localhost:8081"
+
 key is available on the mananagement portal
+
 https://localhost:8081/_explorer/index.html
 
 
 For emulator on a container use
+
 endpoint = "https://IPADDRESSFORCONTAINERHOST:8081"
+
 key is available on the management portal
+
 https://IPADDRESSFORCONTAINERHOST:8081/_explorer/index.html
