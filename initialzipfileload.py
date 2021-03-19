@@ -41,6 +41,7 @@ print("Let's upload the JSON file to Cosmos now")
 for i in datalist:
     ##print(i)
     container.create_item(body=i)
+    ##create_item(body = i, new PartitionKey(item.Id)
     insert_request = float(container.client_connection.last_response_headers['x-ms-request-charge'])
     insert_request_counter = insert_request_counter + insert_request
    ## print(dataitem["id"],dataitem["city"],dataitem["loc"],dataitem["pop"],dataitem["state"])
